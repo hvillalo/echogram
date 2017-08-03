@@ -1,6 +1,6 @@
 Changes to Version 0.1.1
 
- o The default option 'channel = 1" has been changed to 'NULL' in read.echogram() and bottom.hac() functions. When 'channel' is missing, the minimum channel is selected, allowing to read HAC files from Furuno echosounders where 'channel = 0'.
+ o The default option 'channel = 1' has been changed to 'NULL' in read.echogram() and bottom.hac() functions. When 'channel' is missing, the minimum channel is selected, allowing to read HAC files from Furuno echosounders where 'channel = 0'.
  
  Due to inconsistent results observed when sampling pixels in echograms, the functions echogram() and sample.echogram() were reviewed and corrected. The changes are:
  

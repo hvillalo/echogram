@@ -30,13 +30,8 @@ function(echogram, plot = TRUE, coords = NULL, col = "black"){
     }
     points(coords, pch=10, col=col)
     nPts <- nrow(coords)
-<<<<<<< HEAD
     ans <- data.frame(id = 1:nPts, coords, d = NA, pingTime = NA, 
                       depth = NA, Sv = NA)
-=======
-    ans <- data.frame(id = 1:nPts, coords, d = NA, pingNumber = coords$x, 
-	                  pingTime = NA, depth = NA, Sv = NA)
->>>>>>> 738d0270bff33d4e20b510519064c3827157e677
     for ( i in 1:nPts ){
         d <- sqrt(outer(coords[i, 'x'], echoL[, 'X'], "-")^2 + 
 	              outer(coords[i, 'y'], echoL[, 'Yi'], "-")^2)
