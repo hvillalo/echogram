@@ -1,7 +1,7 @@
 Package: echogram
 Type: Package
 Title: Echogram Visualisation and Analysis
-Version: 0.1.0
+Version: 0.1.1
 Date: 2017-01-19
 Encoding: UTF-8
 Author: Héctor Villalobos [aut, cre]

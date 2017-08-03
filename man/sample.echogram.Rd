@@ -8,16 +8,19 @@
  This function allows to select individual pixels from an echogram and returns the Sv value, ping time and depth of the sampled pixel.
 }
 \usage{
-sample.echogram(echogram, plot = TRUE, coords = NULL)
+sample.echogram(echogram, plot = TRUE, coords = NULL, col = "black") 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{echogram}{an object of \code{class} ``echogram'' as returned by \code{\link{read.echogram}}.}
   \item{plot}{logical. If \code{TRUE} (the default), the echogram to be sampled is plotted. }
   \item{coords}{ (x, y) coordinates (in plot units) of the desired samples. They could result from previous sampling of another frequency. }
+  \item{col}{ color for the sampled points pixels. }
 }
 \details{
- The selection of pixels to sample can be done by clicking on the echogram or by passing the coordinates of the desired pixels to the function. The coordinates should be in plot units, and therefore, these typically come from a previous selection by clicking on another frequency's echogram (see examples).
+ The selection of pixels to sample can be done by clicking on the echogram or by passing the coordinates of the desired pixels to the function. The coordinates should be in plot units, and therefore, these typically come from a previous selection by clicking on another frequency's echogram (see examples). 
+ 
+ \code{sample.echogram} makes use of \code{locator} function, and therefore it only works in devices supported by the latter, such as \code{X11}, \code{windows} and \code{quartz}.
 }
 \value{
 A data frame with seven variables:
