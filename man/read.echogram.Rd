@@ -8,7 +8,7 @@
  This function imports from different tuples in the HAC file, the necessary information to visualise and analyse an echogram in R. 
 }
 \usage{
- read.echogram(hac, channel = 1)
+ read.echogram(hac, channel = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,7 +16,7 @@
   \item{channel}{ acoustic channel number. }
 }
 \details{
-  This function calls internally other \code{echogram}'s functions (\code{postion.hac}, \code{navigation.hac} and \code{bottom.hac}) to import data from an HAC file. The possible values for the acoustic channel ranges from 1 to \code{n}, where \code{n} is the number of frequencies used during data acquisition. When \code{channel = 1} (the default), data from the lowest acoustic frequency is imported, while \code{channel = n} refers to the highest frequency present in the HAC file. A text string with the frequency value (in kilohertz) is stored as an attribute of the Sv matrix (see examples below). 
+  This function calls internally other \code{echogram}'s functions (\code{postion.hac}, \code{navigation.hac} and \code{bottom.hac}) to import data from an HAC file. The acoustic channel is an integer, normally between 1 and \code{n}, where \code{n} is the number of frequencies used during data acquisition. When \code{channel = 1}, data from the lowest acoustic frequency is imported, while \code{channel = n} refers to the highest frequency present in the HAC file. By default, the function finds out the smallest channel number, because in some HAC files \code{channel = 0}.  A text string with the frequency value (in kilohertz) is stored as an attribute of the Sv matrix (see examples below). 
 }
 \value{
  An object of  \code{class} ``echogram'' (a list) with components:

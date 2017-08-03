@@ -1,12 +1,17 @@
 bottom.hac <-
-function( hac, channel = 1, plot = FALSE, maxDepth = NULL) {
+function( hac, channel = NULL, plot = FALSE, maxDepth = NULL) {
   #require(readHAC)
   hacR <- hac
   if ( !"HAC" %in% class(hac) ) 
     hacR  <- readHAC::readHAC( hac )
   tuple.types <- unique(hacR$type) # available tuples
   pingtupt <- c(10000, 10010, 10030, 10040, 10050) 
-  ptt <- pingtupt[which(pingtupt %in% tuple.types)]               
+  ptt <- pingtupt[which(pingtupt %in% tuple.types)]
+  
+  # channel
+  if ( missing(channel) )
+    channel <- min(hacR$softwarechannel, na.rm=TRUE)
+  
   pngTup <- hacR[hacR[["type"]] == ptt & hacR[["softwarechannel"]] == channel]
   pTl <- unique(pngTup$length)
   nm <- length(pTl)

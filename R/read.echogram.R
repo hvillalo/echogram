@@ -1,5 +1,5 @@
 read.echogram <-
-function( hac, channel = 1 ) {
+function( hac, channel = NULL ) {
   #require(readHAC)
   hacR  <- readHAC::readHAC( hac )
   tuple.types <- unique(hacR$type) # available tuples
@@ -9,6 +9,10 @@ function( hac, channel = 1 ) {
   ett <- echosTupt[which(echosTupt %in% tuple.types)] 
   ctt <- channelTupt[which(channelTupt %in% tuple.types)] 
   ptt <- pingtupt[which(pingtupt %in% tuple.types)] 
+  
+  # channel
+  if ( missing(channel) )
+    channel <- min(hacR$softwarechannel, na.rm=TRUE)
   
   # subset tuples
   esTup <- hacR[hacR[["type"]] == ett] # echosounder tuple

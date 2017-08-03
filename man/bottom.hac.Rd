@@ -8,7 +8,7 @@
  This function imports, for a given acoustic channel, the detected bottom range stored in the ping tuple of an HAC file.
 }
 \usage{
-bottom.hac(hac, channel = 1, plot = FALSE, maxDepth = NULL)
+bottom.hac(hac, channel = NULL, plot = FALSE, maxDepth = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,7 +18,7 @@ bottom.hac(hac, channel = 1, plot = FALSE, maxDepth = NULL)
   \item{maxDepth}{ maximum depth (in m) represented in the plot. }
 }
 \details{
- The possible values for the acoustic channel ranges from 1 to \code{n}, where \code{n} is the number of frequencies stored during data acquisition. The argument \code{channel = 1}, refers to the lowest acoustic frequency in the HAC file (the default), while \code{channel = n} will be the highest frequency in the file. When a graphical representation is desired (\code{plot = TRUE}), the maximum displayed in the echogram depth can be provided as a negative integer with argument \code{maxDepth}.
+The acoustic channel is an integer, normally between 1 and \code{n}, where \code{n} is the number of frequencies used during data acquisition. When \code{channel = 1}, data from the lowest acoustic frequency is imported, while \code{channel = n} refers to the highest frequency present in the HAC file. By default, the function finds out the smallest channel number, because in some HAC files \code{channel = 0}. When a graphical representation is desired (\code{plot = TRUE}), the maximum displayed in the echogram depth can be provided as a negative integer with argument \code{maxDepth}.
 }
 \value{
  A data frame with two variables where every row represents one emitted ping:
