@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # echogram 0.1.3
 
  * Several changes to echogram() and palette.echogram() functions:
@@ -19,10 +17,6 @@
  depth.max, ping.ini and ping.max allow to visualise parts of the echogram.
 
 
-=======
->>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
-=======
->>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
 # echogram 0.1.2
 
 * Functions using statements: if (class(x) == "foo") were modified to if(inherits(x, "foo")) to correct errors with R-4.x.x.
