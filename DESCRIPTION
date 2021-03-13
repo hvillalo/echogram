@@ -2,7 +2,11 @@ Package: echogram
 Type: Package
 Title: Echogram Visualisation and Analysis
 <<<<<<< HEAD
+<<<<<<< HEAD
 Version: 0.1.3
+=======
+Version: 0.1.2
+>>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
 =======
 Version: 0.1.2
 >>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3

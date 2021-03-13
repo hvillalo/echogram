@@ -5,7 +5,11 @@ function(echogram, Svthr = -70, Svmax = 0, col.sep = NULL, col.nb = NULL, scheme
          main = NULL, tformat = "%H:%M", ...){
   echo <- echogram
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (!inherits(echo, "echogram"))
+=======
+  if ( !inherits(echo, "echogram") ) 
+>>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
 =======
   if ( !inherits(echo, "echogram") ) 
 >>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
@@ -105,11 +109,17 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
     if (colbar == TRUE){
         zlab <- expression(paste(S[v], "  (dB re 1 ", m^{-1}, ")")) # def of zlab
 <<<<<<< HEAD
+<<<<<<< HEAD
 		op <- par(no.readonly = TRUE)  
         on.exit(par(op))
         layout( matrix(c(2, 1), ncol=2), widths=c(7/8, 1/8), heights = c(1, 1) )
         par(mar=c(5.1, 0.1, 4.1, 4.0)) # Antes 3.5
         imageScale(z = Sv, col = cb$palette, breaks = cb$breaks, axis.pos = 4)
+=======
+        layout( matrix(c(2, 1), ncol=2), widths=c(7/8, 1/8), heights = c(1, 1) )
+        par(mar=c(5.1, 0, 4.1, 4.0)) # Antes 3.5
+        imageScale(z=flip.matrix(Sv), col = cb$palette, breaks = cb$breaks, axis.pos = 4, ...)
+>>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
 =======
         layout( matrix(c(2, 1), ncol=2), widths=c(7/8, 1/8), heights = c(1, 1) )
         par(mar=c(5.1, 0, 4.1, 4.0)) # Antes 3.5
@@ -138,6 +148,7 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
     dgs <- seq(depth.grid, depth.max, depth.grid)
     pos.y <- apply( abs(outer(echo$depth, dgs, "-")), 2, which.min )
     at.y <- length(echo$depth) + 1 - pos.y
+<<<<<<< HEAD
 <<<<<<< HEAD
     axis(2, at = at.y, labels = dgs, las = 1)
   
@@ -168,6 +179,8 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
       axis(1, at = at.x, labels = lab.x, ...)
     }
 =======
+=======
+>>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
     axis(2, at = at.y, labels = lab.y, las = 1, ...)
   
     xidx <- 1:nx
@@ -179,6 +192,9 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
     else 
         lab.x <- format(lab.x, format = '%H:%M')
     axis(1, at = at.x, labels = lab.x, ...)
+<<<<<<< HEAD
+>>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
+=======
 >>>>>>> b5b855f94c22523cfca67f36624c6e329bdf0ae3
 }
 
