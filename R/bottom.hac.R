@@ -2,7 +2,7 @@ bottom.hac <-
 function( hac, channel = NULL, plot = FALSE, maxDepth = NULL) {
   #require(readHAC)
   hacR <- hac
-  if ( !"HAC" %in% class(hac) ) 
+  if ( !inherits(hac, "HAC") ) 
     hacR  <- readHAC::readHAC( hac )
   tuple.types <- unique(hacR$type) # available tuples
   pingtupt <- c(10000, 10010, 10030, 10040, 10050) 

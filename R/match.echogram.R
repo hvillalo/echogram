@@ -2,7 +2,7 @@ match.echogram <-
 function(echogram1, echogram2){
   echo1 <- echogram1
   echo2 <- echogram2
-  if ( class(echo1) != "echogram" & class(echo2) != "echogram" ) 
+  if ( !inherits(echo1, "echogram") & !inherits(echo2, "echogram") ) 
     stop ("need objects of class 'echogram'")
 	
   Sv1 <- echo1$Sv

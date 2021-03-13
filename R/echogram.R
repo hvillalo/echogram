@@ -2,7 +2,7 @@ echogram <-
 function(echogram, xref = c("ping", "distance", "time"), scheme = "echov",
   Svthr = -80, Svmax = NULL, col.sep = 1, colbar=TRUE, main=NULL, ...){
   echo <- echogram
-  if ( class(echo) != "echogram" ) 
+  if ( !inherits(echo, "echogram") ) 
     stop ("need object of class 'echogram'") 
   flip.matrix <- function(x)t(x[nrow(x):1, ])
   
@@ -34,15 +34,15 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
 
  plot(1, 1, t="n", ylim=YLIM, xlim=XLIM, axes=FALSE, xlab="", ylab="", xaxs="i", yaxs="i", ...)  
  for(i in seq(poly)){
-  if(axis.pos %in% c(1,3)){
-   polygon(poly[[i]], c(0,0,1,1), col=col[i], border=col[i])
+  if(axis.pos %in% c(1, 3)){
+   polygon(poly[[i]], c(0, 0, 1, 1), col=col[i], border=col[i])
   }
-  if(axis.pos %in% c(2,4)){
-   polygon(c(0,0,1,1), poly[[i]], col=col[i], border=col[i])
+  if(axis.pos %in% c(2, 4)){
+   polygon(c(0, 0, 1, 1), poly[[i]], col=col[i], border=col[i])
   }
  }
  box()
- if(add.axis) {axis(axis.pos, las=1)}
+ if(add.axis) {axis(axis.pos, las=1, ...)}
 }
 #------------------------------------------------------------------------------  
     Sv <- echo$Sv
@@ -61,9 +61,11 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
                    time = echo$pings$pingTime)
 
     if (colbar == TRUE){
+        zlab <- expression(paste(S[v], "  (dB re 1 ", m^{-1}, ")")) # def of zlab
         layout( matrix(c(2, 1), ncol=2), widths=c(7/8, 1/8), heights = c(1, 1) )
-        par(mar=c(5.1, 0, 4.1, 3.5))
-        imageScale(z=flip.matrix(Sv), col = cb$palette, breaks = cb$breaks, axis.pos = 4)
+        par(mar=c(5.1, 0, 4.1, 4.0)) # Antes 3.5
+        imageScale(z=flip.matrix(Sv), col = cb$palette, breaks = cb$breaks, axis.pos = 4, ...)
+        mtext(zlab, side=4, line=-1.5, outer=TRUE)
         par(mar=c(5.1, 4.1, 4.1, 0.1))
     }
     if (colbar == FALSE)
@@ -78,15 +80,15 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
     lab.y <- lab.y[1:which.min(abs(max.depth - lab.y))]
     pos.y <- apply( abs(outer(echo$depth, lab.y, "-")), 2, which.min )
     at.y <- length(echo$depth) + 1 - pos.y
-    axis(2, at = at.y, labels = lab.y, las = 1)
+    axis(2, at = at.y, labels = lab.y, las = 1, ...)
   
     xidx <- 1:nx
     at.x <- pretty(xidx)
     pos.x <- apply(abs(outer(xidx, at.x, "-")), 2, which.min)
     lab.x <- Xnum[pos.x] 
-    if (any(class(lab.x) == "numeric"))
+    if ( !inherits(lab.x, "numeric") )
         lab.x <- round(lab.x, 1)
     else 
         lab.x <- format(lab.x, format = '%H:%M')
-    axis(1, at = at.x, labels = lab.x)
+    axis(1, at = at.x, labels = lab.x, ...)
 }

@@ -1,8 +1,8 @@
 Package: echogram
 Type: Package
 Title: Echogram Visualisation and Analysis
-Version: 0.1.1
-Date: 2017-01-19
+Version: 0.1.2
+Date: 2019-12-15
 Encoding: UTF-8
 Author: Héctor Villalobos [aut, cre]
 Maintainer: Héctor Villalobos <hvillalo@ipn.mx>

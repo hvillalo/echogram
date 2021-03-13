@@ -17,7 +17,7 @@ function( hac, channel = NULL ) {
   # subset tuples
   esTup <- hacR[hacR[["type"]] == ett] # echosounder tuple
   chanTup <- hacR[hacR[["type"]] == ctt & hacR[["softwarechannel"]] == channel] # channel tuple
-  pngTup <- hacR[hacR[["type"]] == ptt & hacR[["softwarechannel"]] == channel] # ping tuple
+  pngTup <- hacR[hacR[["type"]] %in% ptt & hacR[["softwarechannel"]] == channel] # ping tuple
   
   # find out if more than one matrix is present in ping tuple
   pTl <- unique(pngTup$length)
@@ -30,9 +30,9 @@ function( hac, channel = NULL ) {
       # Get Sample value data
       Sv <- readHAC::parseHAC(pTup)$"Sample value"
       Sv[Sv > 0] <- NA  # discard positive dB values
-      if ( ptt == 10030 )
-        Sv <- Sv * 10 # units are not parsed correctly, need to multiply by 10 ### NOT ALWAYS ###
-      if ( class(Sv) != "matrix" )
+      if ( unique(pTup$type) == 10030 )
+        Sv <- Sv * 10 # units are not parsed correctly for 10030, need to multiply by 10
+      if ( !inherits(Sv, "matrix") )
         Sv <- matrix(Sv, ncol=1)
       assign(paste("Sv", i, sep="."), Sv)
     }
@@ -46,10 +46,17 @@ function( hac, channel = NULL ) {
      y <- lapply(x, readHAC::parseHAC)
      z <- lapply(y, function(x) x$"Sample value") 
      zz <- lapply(z, function(x) matrix(x, ncol=1) ) 
-  
+     
+     n <- length(pngTup$type)
+     for ( k in 1:n ) {
+       if ( pngTup$type[k] == 10030 )
+         zz[[k]] <- zz[[k]] * 10
+     }
+     
      Sv <- zz[[1]]
      for (g in 2:length(zz))
       Sv <- mergeSvmat(Sv, zz[[g]])
+     #Sv[Sv >= 0] <- NA
   }
   frq <- readHAC::parseHAC(chanTup)$"Acoustic frequency"/1000
   attr(Sv, "frequency") <- paste(frq, "kHz")

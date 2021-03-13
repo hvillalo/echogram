@@ -1,7 +1,7 @@
 sample.echogram <-
 function(echogram, plot = TRUE, coords = NULL, col = "black"){
     echo <- echogram
-    if ( class(echo) != "echogram" ) 
+    if ( !inherits(echo, "echogram") ) 
         stop ("need object of class 'echogram'")
     if ( plot == TRUE ) {
         dev.new(); echogram(echo)
