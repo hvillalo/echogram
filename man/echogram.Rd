@@ -12,7 +12,7 @@ echogram(echogram, Svthr = -70, Svmax = 0, col.sep = NULL, col.nb = NULL,
          scheme = NULL, depth.grid = NULL, x.grid = NULL, 
          x.ref = c("pings", "nmi", "seconds"), seabed = FALSE, 
          depth.max = NULL, ping.ini = NULL, ping.max = NULL, colbar=TRUE, 
-         main = NULL, tformat = "%H:%M", ...)
+         main = NULL, tformat = "\%H:\%M", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

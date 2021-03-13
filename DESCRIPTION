@@ -13,4 +13,5 @@ URL: https://github.com/hvillalo/echogram
 BugReports: https://github.com/hvillalo/echogram/issues
 Imports: 
     geosphere,
-	readHAC
+	readHAC,
+	pals

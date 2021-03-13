@@ -1,5 +1,5 @@
 palette.echogram <-
-function(Svthr, Svmax, col.sep = NULL, col.nb = NULL, scheme = NULL, visu = FALSE)
+function(Svthr = -70, Svmax = 0, col.sep = NULL, col.nb = NULL, scheme = NULL, visu = FALSE)
 {
   # determine number of colors by col.sep
   if (!missing(col.sep)){
@@ -36,7 +36,7 @@ function(Svthr, Svmax, col.sep = NULL, col.nb = NULL, scheme = NULL, visu = FALS
      if ( !scheme %in% c("parula", "EK500", "echov") )
       stop ("scheme must be 'parula', 'EK500', 'echov', a vector of valid color names or a function generating valid color names")	 
      if ( scheme == "parula" )
-	  cols <- parula(nbcols)
+	  cols <- pals::parula(nbcols)
 	 if ( scheme == "EK500" )
       cols <- c("#9F9F9F", "#5F5F5F", "#0000FF", "#00007F", "#00BF00", "#007F00",
 	 "#FF1900", "#FF7F00","#FF00BF", "#FF0000", "#A65300", "#783C28") 

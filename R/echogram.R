@@ -86,7 +86,7 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
   
   # new default palette from pals package.
   if (missing(scheme)) 
-    scheme <- parula(nbcols)
+    scheme <- pals::parula(nbcols)
 	
     cb <- palette.echogram(Svthr, Svmax, col.sep, nbcols, scheme = scheme)
 
