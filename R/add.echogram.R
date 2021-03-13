@@ -3,7 +3,7 @@ function(echogram1, echogram2, operator = c("plus", "minus"),
 domain = c("linear", "dB")) {
   echo1 <- echogram1
   echo2 <- echogram2
-    if ( class(echo1) != "echogram" & class(echo2) != "echogram" ) 
+    if ( !inherits(echo1, "echogram") & !inherits(echo2, "echogram") ) 
     stop ("need objects of class 'echogram'")
   m1 <- echo1$Sv
   m2 <- echo2$Sv

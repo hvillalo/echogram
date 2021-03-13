@@ -1,7 +1,7 @@
 noise.echogram <-
   function(echogram, ping=NULL, dB1m = NULL, alpha = NULL, plot = TRUE, out = FALSE){
     echo <- echogram
-    if ( class(echo) != "echogram" ) 
+    if ( !inherits(echo, "echogram") ) 
       stop ("need object of class 'echogram'")
     if ( missing(ping) ) {
       np <- dim(echo$Sv)[2]

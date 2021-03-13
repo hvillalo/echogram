@@ -1,7 +1,7 @@
 trim.echogram <-
 function( echogram, depth.max = NULL, ping.ini = 1, ping.end = NULL ){
   echo <- echogram
-  if ( class(echo) != "echogram" ) 
+  if ( !inherits(echo, "echogram") ) 
     stop ("need object of class 'echogram'")
   vp <- echo$depth
   mSv <- echo$Sv

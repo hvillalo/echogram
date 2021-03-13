@@ -1,7 +1,7 @@
 mask.echogram <-
 function(echogram, surf.off = NULL, bott.off = NULL, mask = TRUE){
   echo <- echogram
-  if ( class(echo) != "echogram" ) 
+  if ( !inherits(echo, "echogram") ) 
     stop ("need object of class 'echogram'")
   vp <- echo$depth
   dbot <- echo$pings

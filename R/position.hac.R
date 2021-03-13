@@ -2,7 +2,7 @@ position.hac <-
 function( hac ) {
   #require(readHAC)
   hacR <- hac
-  if ( !"HAC" %in% class(hac) ) 
+  if ( !inherits(hac, "HAC") ) 
     hacR  <- readHAC::readHAC( hac )
   if ( !20 %in%  unique(hacR$type) )
     stop ( "Position Tuple (20) is missing")

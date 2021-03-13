@@ -2,7 +2,7 @@ join.echogram <-
 function(echogram1, echogram2){
   echo1 <- echogram1
   echo2 <- echogram2
-  if ( class(echo1) != "echogram" & class(echo2) != "echogram" ) 
+  if ( !inherits(echo1, "echogram") & !inherits(echo2, "echogram") ) 
     stop ("need objects of class 'echogram'")
   
   m1 <- echo1$Sv
@@ -29,6 +29,7 @@ function(echogram1, echogram2){
   sp2 <- echo2$pings$speed
   
   dbot <- data.frame(pingTime=c(pt1, pt2), detBottom=c(db1, db2), speed=c(sp1, sp2))
+  attr(dbot$pingTime, "tzone") <- "UTC"
   np <- nrow(dbot)
   
   tdif <- c(0, difftime(dbot[2:np, 'pingTime'], dbot[1:(np-1), 'pingTime'], units = 'hours'))

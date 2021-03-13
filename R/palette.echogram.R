@@ -1,13 +1,46 @@
 palette.echogram <-
-function(Svthr = -70, Svmax = 0, col.sep = 1, scheme = "echov", visu = FALSE)
+function(Svthr, Svmax, col.sep = NULL, col.nb = NULL, scheme = NULL, visu = FALSE)
 {
-  if ( missing(scheme) ) scheme <- "echov"
-  if ( length(scheme) > 1 ) {
+  # determine number of colors by col.sep
+  if (!missing(col.sep)){
+    breaks <- seq(Svthr, Svmax, by = col.sep)
+    lb <- length(breaks)
+    if (breaks[lb] < Svmax)
+      breaks <- c(breaks, breaks[lb] + col.sep)
+    nbcols = length(breaks) - 1
+  } else {
+  # determine breaks by number of colors   
+    if (!missing(col.nb)){
+      breaks <- seq(Svthr, Svmax, len = col.nb + 1)
+      col.sep <- breaks[2]-breaks[1]
+      nbcols <- col.nb
+    }
+  }	
+
+  if (missing(col.sep) & missing(col.nb)){
+    col.sep <- 1
+    breaks <- seq(Svthr, Svmax, by = col.sep)
+    lb <- length(breaks)
+    if (breaks[lb] < Svmax)
+      breaks <- c(breaks, breaks[lb] + col.sep)
+    nbcols = length(breaks) - 1
+  }	
+  
+  # new default palette from pals package.
+  
+  if (missing(scheme)) 
+    scheme <- "parula"
+  if (length(scheme) > 1) {
      cols <- scheme 
   } else {
-     if ( !scheme %in% c("echov", "EK500") )
-      stop ("scheme must be 'echov', 'EK500' or a vector of valid color names")	 
-     if ( scheme == "echov" )
+     if ( !scheme %in% c("parula", "EK500", "echov") )
+      stop ("scheme must be 'parula', 'EK500', 'echov', a vector of valid color names or a function generating valid color names")	 
+     if ( scheme == "parula" )
+	  cols <- parula(nbcols)
+	 if ( scheme == "EK500" )
+      cols <- c("#9F9F9F", "#5F5F5F", "#0000FF", "#00007F", "#00BF00", "#007F00",
+	 "#FF1900", "#FF7F00","#FF00BF", "#FF0000", "#A65300", "#783C28") 
+	 if ( scheme == "echov" )
       cols <- c("#EBEBEB", "#E6E6E6", "#E1E1E1", "#DCDCDC", "#D7D7D7", "#D2D2D2",
 	 "#CDCDCD", "#C8C8C8", "#C3C3C3", "#BEBEBE", "#B9B9B9", "#B4B4B4", "#AFAFAF",
 	 "#AAAAAA", "#A5A5A5", "#A0A0A0", "#9B9B9B", "#969696", "#919191", "#8C8C8C",
@@ -19,14 +52,9 @@ function(Svthr = -70, Svmax = 0, col.sep = 1, scheme = "echov", visu = FALSE)
 	 "#FF2828", "#FF1E1E", "#FF1414", "#FF0A0A", "#FF0000", "#F50000", "#EB0000",
 	 "#E10000", "#D70000", "#CD0000", "#C30000", "#B90000", "#AF0000", "#A50000",
 	 "#9B0000", "#910000")
-     if ( scheme == "EK500" )
-      cols <- c("#9F9F9F", "#5F5F5F", "#0000FF", "#00007F", "#00BF00", "#007F00",
-	 "#FF1900", "#FF7F00","#FF00BF", "#FF0000", "#A65300", "#783C28")
   }
  
   fpal <- colorRampPalette(colors = cols)
-  breaks <- seq(Svthr, Svmax, by = col.sep)
-  nbcols = length(breaks) - 1
   ans <- list(palette = fpal(nbcols), breaks = breaks)
   
   if (visu == TRUE){
