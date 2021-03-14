@@ -20,7 +20,7 @@ function( hac, channel = NULL, plot = FALSE, maxDepth = NULL) {
     ans <- list()
     for ( i in 1:nm ){
       pTup <- subset(pngTup, length == pTl[i])
-      detbot <- -readHAC::parseHAC(pTup)$'Detected bottom range [m]'
+      detbot <- readHAC::parseHAC(pTup)$'Detected bottom range [m]'
       fracSec <- readHAC::parseHAC(pTup)$'Time fraction'
       pingTime <- readHAC::parseHAC(pTup)$'Time CPU ANSI'
       pingTime <- pingTime + fracSec
@@ -33,7 +33,7 @@ function( hac, channel = NULL, plot = FALSE, maxDepth = NULL) {
     x <- split(pngTup, pngTup$pointer)
     y <- lapply(x, readHAC::parseHAC)
     dbr <- lapply(y, function(x)x$"Detected bottom range [m]")
-    detbot <- -unlist(dbr)
+    detbot <- unlist(dbr)
     tf <- lapply(y, function(x)x$"Time fraction") 
       fracSec <- unlist(tf)
     pT <- lapply(y, function(x)x$'Time CPU ANSI')
@@ -46,10 +46,10 @@ function( hac, channel = NULL, plot = FALSE, maxDepth = NULL) {
   if (plot == TRUE) {
     if ( missing(maxDepth) )
       maxDepth <- min(ans$detBottom, na.rm=TRUE)
-    if (maxDepth < -500 )
-      maxDepth <- -600
+    if (maxDepth < 500 )
+      maxDepth <- 600
     plot(ans$pingTime, ans$detBottom, type = "l", xlab = "ping time", ylab = "detected bottom (m)", 
-	  ylim = c(maxDepth, 0), col="red")
+	  ylim = rev(c(0, maxDepth)), col="red")
       abline(h=0, col="grey")
   }  
   ans
