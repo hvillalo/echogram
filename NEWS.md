@@ -1,3 +1,7 @@
+# echogram 1.0.0
+ 
+ * Added functions for reading Simrad RAW data files.
+ 
 # echogram 0.1.3
 
  * Several changes to echogram() and palette.echogram() functions:
