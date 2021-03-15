@@ -1,6 +1,6 @@
 ## Convert Received Power to Sv ====
 convertPower <- function(ek, frq = NULL, out = "Sv"){
-  xcvrConf <- ek$header$Transceiver
+  xcvrConf <- ek$config$Transceiver
   sdat <- ek$pings$sampleData
   if (missing(frq))
     frq <- 1
