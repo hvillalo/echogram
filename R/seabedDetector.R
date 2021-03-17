@@ -31,11 +31,9 @@ function(X, Y = NULL, det.lvl = -35, near.fld = 3, Sv.meanF = FALSE,
   Sv[Sv < det.lvl] <- NA  
     
   # apply mean filter to bottom Sv
-  if (Sv.meanF == TRUE){
-    require(mmand)
-    Sv <- meanFilter(Sv, shapeKernel(shapeK))
-  }
-    
+  if (Sv.meanF == TRUE)
+    Sv <- mmand::meanFilter(Sv, mmand::shapeKernel(shapeK))
+      
   # find index of max Sv value
   Sv.max.idx <- apply(Sv, 2, which.max) 
   # and corresponding bottom

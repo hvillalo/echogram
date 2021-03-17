@@ -1,17 +1,17 @@
-#' Read raw files from EK* scientific echosounders 
+#' Read EK* raw files from Simrad echosounders
 #' 
-#' This function will read the whole file in raw format. You must know what 
-#' data is inside and how it is organised in order to use it.
+#' This function will read the whole Simrad EK* raw file as raw bytes.
 #' 
 #' @param file EK* raw file name
 #'
-#' @return raw data 
+#' @details This function is not intended to be called directly by the user, as  
+#' it returns hex digits that should be first interpreted to be useful. Instead, 
+#' \code{read.EK_raw} is called by other echogram functions that also convert 
+#' the data to the appropriate type. 
 #'
-#' @examples
-#'  \dontrun{
-#' ekraw <- read.EK_raw("D20140216-T203102.raw")
-#' }
-#'
+#' @return A vector of class ``raw''.
+#' 
+#' @author Héctor Villalobos   
 #'
 read.EK_raw <- function(file){
   fid <- file(file, open = "rb")

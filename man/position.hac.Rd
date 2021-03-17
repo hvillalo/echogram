@@ -40,7 +40,7 @@ If during acoustic data acqusition the PC clock is set to UTC time, as recomende
  \code{\link{navigation.hac}}
 }
 \examples{
- hacfile <- system.file("hac", "D20150510-T202221.hac", package="echogram")
+ hacfile <- system.file("extdata", "D20150510-T202221.hac", package="echogram")
  pos <- position.hac( hacfile )
  pos
 }

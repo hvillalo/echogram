@@ -1,20 +1,21 @@
 #' Get datagram time from imported EK* raw files.
 #' 
-#' Function get.dgTime() is not meant to be run by the user. it 
-#' is called by other functions.
+#' Extract datagram time and convert it to POSIXct.
 #'
-#' The time is cpu time, and the time zone is assumed to be UTC
-#' which may not be the case.
+#' @param raw A raw vector imported via \code{read.EK_raw}.
 #'
-#' @param raw An imported EK* raw file
-#' @param ini Initial Byte with time data
+#' @param ini Initial byte with time data
 #' 
+#' @details The cpu time is stored in the first 8 bytes of every datagram, 
+#' after its name. It is assumed that the time zone is UTC, which may not
+#' be the case. By comparig with gps time in nmea data, a correction may 
+#' be applied if needed. The index (ini) comes from output of get_dgIDX() 
+#' function. This function should not be called directly by the user.
+#'
 #' @return datagram time in POSIXct format
 #'
+#' @author Héctor Villalobos   
 #' 
-#' @examples
-#'  
-#'  
 dgTime <- function(raw, ini){
   # Convert integer to unsigned integer (from bmp package).
   ConvertIntToUInt <- function (x, adjustment = 2^32) {
@@ -24,7 +25,6 @@ dgTime <- function(raw, ini){
     x
   }
   
-  # the first 8 Bytes of every datagram (after the name) store the time
   xDT <- readBin(raw[ini:(ini + 7)], 'integer', n = 2, size = 4)
   xDT <- ConvertIntToUInt(xDT)
   ans <- (xDT[2] * 2^32 + xDT[1]) / 10e6 - 11644473600

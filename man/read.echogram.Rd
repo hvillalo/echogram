@@ -35,7 +35,7 @@ Currently, \code{read.echogram} has been successfully tested importing HAC data 
 }
 
 \examples{
-hacfile <- system.file("hac", "D20150510-T202221.hac", package = "echogram")
+hacfile <- system.file("extdata", "D20150510-T202221.hac", package = "echogram")
 echo1 <- read.echogram(hacfile, channel = 1)
 class(echo1)
 str(echo1)

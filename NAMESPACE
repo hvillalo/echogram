@@ -1,5 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 importFrom("grDevices", "colorRampPalette", "heat.colors", "rgb", "dev.new")
+
 importFrom("graphics", "abline", "axis", "box", "grid", "image",
              "layout", "lines", "locator", "par", "plot", "points",
              "polygon", "rect", "mtext")

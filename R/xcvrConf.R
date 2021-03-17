@@ -1,4 +1,17 @@
-# getXcvrConf(). Get Transceiver configuration.
+#' Extract transceiver configuration from imported EK* raw files.
+#' 
+#' Extract datagram time and convert it to POSIXct.
+#'
+#' @param raw A raw vector imported via \code{read.EK_raw}.
+#'
+#' @param ini Initial byte with transceiver data
+#' 
+#' @details This function should not be called directly by the user.
+#'
+#' @return a data frame with transceiver configuration info.
+#'
+#' @author Héctor Villalobos   
+#' 
   xcvrConf <- function(raw, ini){
     len <- c(128, rep(4, 16), 20, 8, 20, 8, 20, 52)
     i <- c(ini, ini + cumsum(len))[1:length(len)]
@@ -26,10 +39,7 @@
     gainT <- readBin(raw[i[20]:k[20]], 'double', 5, 4, endian = 'little')
     spare3 <- rawToChar(raw[i[21]:k[21]])
     saCorrT <- readBin(raw[i[22]:k[22]], 'double', 5, 4, endian = 'little')
-    #spare4 <- rawToChar(raw[i[23]:(k[23]-50)]) # this one gives error when 
-    # reading the full 52 Bytes. Next is a fix...
-    spare4 <- raw[i[23]:(k[23])]
-    spare4 <- rawToChar(spare4[!spare4 == '00'])
+    spare4 <- paste(rawToChar(raw[i[23]:k[23]], multiple = TRUE), collapse = "") 
     
     ans <- 
       data.frame(channelId, beamType, frequency, gain, EBA, beamwidthAlongship, 

@@ -35,7 +35,7 @@ navigation.hac(pos)
  \code{\link{position.hac}}, \code{\link{bearingRhumb}}, \code{\link{distVincentyEllipsoid}}.
 }
 \examples{
- hacfile <- system.file("hac", "D20150510-T202221.hac", package="echogram")
+ hacfile <- system.file("extdata", "D20150510-T202221.hac", package="echogram")
  pos <- position.hac( hacfile )
  pos
  pos2 <- navigation.hac(pos)

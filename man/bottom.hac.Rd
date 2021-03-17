@@ -29,7 +29,7 @@ The acoustic channel is an integer, normally between 1 and \code{n}, where \code
 Héctor Villalobos
 }
 \examples{
-hacfile <- system.file("hac", "D20150510-T202221.hac", package="echogram")
+hacfile <- system.file("extdata", "D20150510-T202221.hac", package="echogram")
 bottom.hac( hacfile )
 bottom.hac( hacfile, plot = TRUE )
 }

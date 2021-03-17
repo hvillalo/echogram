@@ -15,9 +15,9 @@ function(echogram, surf.off = NULL, bott.off = NULL, mask = TRUE){
   idxT <- seq(0, 1, len=nc)
   mBX <- matrix(NA, nrow=nr, ncol=nc)
   if ( !missing(bott.off) )
-    detB <- detB + bott.off
+    detB <- detB - bott.off
   for( k in 1:nc){
-    wm <- which.min(abs(vp + detB[k]))
+    wm <- which.min(abs(vp - detB[k]))
     mBX[1:(wm-1), k] <- 1
   }
   if ( !missing(surf.off) ){

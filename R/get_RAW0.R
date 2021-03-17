@@ -1,4 +1,18 @@
-# readRAW0(). Read Sample Data from RAW0 datagram
+#' Get RAW0 datagrams from imported EK60 raw files.
+#'
+#' Read the acoustic sample data stored in RAW0 datagrams.
+#'
+#' @param raw An imported EK60 raw file or a raw file name
+#' 
+#' @param angles Logical. If TRUE, and angle data is present, an array
+#' containing alongship and atwarthship electrical angles is returned.
+#' 
+#' @details Not to be called directly by the user.
+#'
+#' @return A list with sample data information, and an array with received power.
+#'
+#' @author Héctor Villalobos 
+#' 
 get_RAW0 <- function(raw, angles){
   if (!inherits(raw, "raw"))
     raw <- read.EK_raw(raw)

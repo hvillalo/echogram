@@ -47,7 +47,7 @@ Héctor Villalobos
 }
 \examples{
 # import hac file
-hacfile <- system.file("hac", "D20150510-T202500.hac", package = "echogram")
+hacfile <- system.file("extdata", "D20150510-T202500.hac", package = "echogram")
 echo2.038 <- read.echogram(hacfile)
 
 # echogram by default 

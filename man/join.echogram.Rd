@@ -26,10 +26,10 @@ Héctor Villalobos
 }
 \examples{
 # import 38 kHz data from two consecutive HAC files
-hacfile1 <- system.file("hac", "D20150510-T202221.hac", package = "echogram")
+hacfile1 <- system.file("extdata", "D20150510-T202221.hac", package = "echogram")
 echo1.038 <- read.echogram(hacfile1, channel = 1)
 
-hacfile2 <- system.file("hac", "D20150510-T202500.hac", package = "echogram")
+hacfile2 <- system.file("extdata", "D20150510-T202500.hac", package = "echogram")
 echo2.038 <- read.echogram(hacfile2, channel = 1)
 
 # join into one echogram

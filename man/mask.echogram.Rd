@@ -30,7 +30,7 @@ Héctor Villalobos
 \examples{
 
 # import 38 kHz data from HAC file
-hacfile <- system.file("hac", "D20150510-T202500.hac", package = "echogram")
+hacfile <- system.file("extdata", "D20150510-T202500.hac", package = "echogram")
 echo2.038 <- read.echogram(hacfile, channel = 1)
 
 # make a copy of the original echogram

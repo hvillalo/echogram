@@ -1,14 +1,22 @@
-#' Get NMEA sentences from NME0 datagrams in imported EK* raw files.
-#' 
+#' Get NME0 datagrams from imported EK* raw files.
+#'
+#' Read the NMEA sentences stored in NME0 datagrams.
+#'
 #' @param raw An imported EK* raw file or a raw file name
 #' 
+#' @details For parsing NMEA sentences, \code{parse.nmea()} function
+#' should be used. 
+#'
 #' @return A data frame with CPU time and corresponding NMEA data
 #'
+#' @seealso \code{parse.nmea} 
 #' 
+#' @author Héctor Villalobos 
+#'
 #' @examples
-#'  \dontrun{
-#'  nmea <- get.NME0(ekraw)
-#'  }
+#' fn <- system.file("extdata", "demo-D20130504-T083828.raw", package = "echogram")
+#' nmea <- get_NME0(fn)
+#' head(nmea)
 #'  
 get_NME0 <- function(raw){
   if (!inherits(raw, "raw"))

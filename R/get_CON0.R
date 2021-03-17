@@ -1,4 +1,20 @@
-# readCON0(). Read configuration datagram CON0
+#' Get CON0 datagram from EK60 raw files
+#' 
+#' Read the echosounder configuration information stored in CON0 datagram.
+#' 
+#' @param raw An imported EK60 raw file or a raw file name
+#' 
+#' @return A list with header and transceiver configuration
+#' 
+#' @details Not to be called directly by the user.
+#'
+#' @author Héctor Villalobos   
+#'
+#' @examples
+#' fn <- system.file("extdata", "demo-D20130504-T083828.raw", package = "echogram")
+#' config <- get_CON0(fn)
+#' config
+#'
 get_CON0 <- function(raw){
   if (!inherits(raw, "raw"))
     raw <- read.EK_raw(raw)
@@ -14,13 +30,11 @@ get_CON0 <- function(raw){
     surveyName <- rawToChar(raw[i[3]:k[3]])
     transectName <- rawToChar(raw[i[4]:k[4]])
     sounderName <- rawToChar(raw[i[5]:k[5]])
-    spare <- rawToChar(raw[i[6]:(k[6] - 123)]) # this one gives error when 
-    # reading the full 128 Bytes. The fix used in get.EK_XcvrConf() doesn't work 
-    # very good.
+    version <- rawToChar(raw[i[6]:(k[6]-123)]) 
     transceiverCount <- readBin(raw[i[7]:k[7]], what = 'integer', n = 1, 
                                 size = 4, signed	= TRUE, endian = "little")
     
-    Header <- data.frame(surveyName, transectName, sounderName, spare, 
+    Header <- data.frame(surveyName, transectName, sounderName, version, 
                            transceiverCount)
     
     # Transceiver(s) configuration
