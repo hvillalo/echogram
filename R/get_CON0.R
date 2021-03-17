@@ -15,7 +15,7 @@ get_CON0 <- function(raw){
     transectName <- rawToChar(raw[i[4]:k[4]])
     sounderName <- rawToChar(raw[i[5]:k[5]])
     spare <- rawToChar(raw[i[6]:(k[6] - 123)]) # this one gives error when 
-    # reading the full 128 Bytes. The fix used in get.EK_XcvrConf() doesn't work 
+    # reading the full 128 Bytes. The fix used in xcvrConf() doesn't work 
     # very good.
     transceiverCount <- readBin(raw[i[7]:k[7]], what = 'integer', n = 1, 
                                 size = 4, signed	= TRUE, endian = "little")

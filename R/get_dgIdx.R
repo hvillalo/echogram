@@ -1,15 +1,22 @@
-#' Get datagram lengths (dgLen), types  (dgType), and indices from imported 
-#' EK* raw files.
+#' Get datagram indices from EK* raw files
 #'
-#' The first 4 Bytes before every datagram contain the dgLen, which is repeated
-#' in the 4 Bytes at the end, so 4 + dgLen + 4 (+ 1 for skipping to the next).  
-#' Considering only data in dgLen, the first 4 Bytes are the dgType, and the 
-#' next 8 contain the time (4 Bytes for lowDT and 4 Bytes for highDT).
+#' Find the datagram types and lengths, and their respective indices in EK* raw files
 #' 
-#' @param raw An imported EK* raw file or a raw file name
+#' @param raw A raw vector imported via \code{read.EK_raw} or an EK* raw file name
 #' 
-#' @return A table with datagram types and lengths, and most important, the 
-#'         indices for extracting the data
+#' @details In EK* raw files, the first 4 bytes before every datagram contain its
+#' length (dgLen), which is repeated after the datagram data, before the length 
+#' of the next datagram. So, for skipping from one datagram to the next, it takes
+#' 4 + dgLen + 4 + 1.  
+#' Within each datagram, the first 4 bytes give its name (dgType: CON0, NME0, RAW0, etc.),
+#' followed by the time in the next 8 bytes, and then the datagram data according to its type. 
+#' The output of this fuction is key for extracting configuration data (header and 
+#' transceiver info), nmea sentences, and acoustic raw data (received power and angles).
+#'
+#' @return A data frame with datagram types (CON0, NME0, RAW0, etc.) and lengths, 
+#'         and most important, the indices for extracting each datagram.
+#' 
+#' @author Héctor Villalobos  
 #' 
 #' @examples
 #'  \dontrun{
