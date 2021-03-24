@@ -11,25 +11,30 @@ parse.nmea(nmea, sentence = NULL, returnAll = FALSE)
 as returned by \code{get_NME0}.}
 
 \item{sentence}{A string identifying the NMEA sentence to process. It
-can be one of "GPGGA", "INGGA", "GPGLL", "GPRMC".}
+can be one of "GPRMC", "GPGGA", "INGGA", or "GPGLL".}
 
 \item{returnAll}{logical. If \code{TRUE}, all data found in the selected
 sentence is returned.}
 }
 \value{
-A data frame with cpu time, gps time, miliseconds, longitude, and
-latitude. Also, vessel speed and bearing if found in the data.
+A data frame with cpu time, gps time, miliseconds (already added
+in gps time when the chossen sentence is "GPRMC"), longitude, and
+latitude. Additionally, vessel speed and bearing are returned if found in
+the data.
 }
 \description{
 Find and parse GPS data from NMEA sentences.
 }
 \details{
-This function identifies among the sentences found in the data, 
-the one with more information (more GPS fixes). However, sometimes they 
-may be corrupted, so the user can choose a different sentence to process.
+This function looks first for the "GPRMC" sentence, if not found  
+it tries then with "GPGGA", "INGGA", or "GPGLL", and process the one 
+more information (more GPS fixes). Be ware that sometimes strings may be
+corrupted, so it is possible to choose manually the sentence to process.
 This is why \code{get_NME0} does not parse the NMEA strings by default. 
-If sentences: "GPVTG", "INVTG", "GNVTG", or "IIVTG" are found, vessel 
-speed and bearing are also parsed and returned.
+When one of "GPVTG", "INVTG", "GNVTG", or "IIVTG" sentences is found, vessel 
+speed and bearing are also parsed and returned. 
+Differences in time.cpu and gps.time may reveal wrong clock settings in the 
+data aquisition computer.
 }
 \examples{
 if(interactive()){
