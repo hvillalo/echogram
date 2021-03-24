@@ -2,30 +2,34 @@
 % Please edit documentation in R/read.EK_idx.R
 \name{read.EK_idx}
 \alias{read.EK_idx}
-\title{Read EK* idx files from Simrad echosounders}
+\title{Read idx files from Simrad EK* echosounders}
 \usage{
 read.EK_idx(file)
 }
 \arguments{
-\item{file}{EK* idx file name}
+\item{file}{EK* idx file name.}
 }
 \value{
-A data frame with the above ping information plus ping times.
+A data frame with ping data: ping number, vessel distance, latitude, 
+longitude, and fileoffset.
 }
 \description{
 This function will read Simrad IDX0 datagrams with ping data.
 }
 \details{
 This function calls \code{read.EK_raw}, and \code{get_dgIdx} functions
-to read the idx file, find the IDX0 datagrams, and then extract ping information:
-ping number, vessel distance, latitude, longitude and fileoffset.
+to read the idx file, find the IDX0 datagrams, and then extracts ping information.
 }
 \examples{
 fn <- system.file("extdata", "demo-D20130504-T083828.idx", package = "echogram")
 pings <- read.EK_idx(fn)
 head(pings)
+plot(pings$lon, pings$lat)
 
 }
+\seealso{
+\code{read.EK_bot}.
+}
 \author{
-Héctor Villalobos
+Héctor Villalobos.
 }

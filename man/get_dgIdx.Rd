@@ -7,31 +7,33 @@
 get_dgIdx(raw)
 }
 \arguments{
-\item{raw}{A raw vector imported via \code{read.EK_raw} or an EK* raw file name}
+\item{raw}{A raw vector imported via \code{read.EK_raw} or an EK* raw file name.}
 }
 \value{
 A data frame with datagram types (CON0, NME0, RAW0, etc.) and lengths, 
-        and most important, the indices for extracting each datagram.
+        and most importantly, the indices where each datagram is located.
 }
 \description{
-Find the datagram types and lengths, and their respective indices in EK* raw files
+Find the datagram types and lengths, and their respective indices in EK* raw files.
 }
 \details{
 In EK* raw files, the first 4 bytes before every datagram contain its
-length (dgLen), which is repeated after the datagram data, before the length 
+length (dgLen), which is repeated after the datagram data and before the length 
 of the next datagram. So, for skipping from one datagram to the next, it takes
 4 + dgLen + 4 + 1.  
-Within each datagram, the first 4 bytes give its name (dgType: CON0, NME0, RAW0, etc.),
-followed by the time in the next 8 bytes, and then the datagram data according to its type. 
+Within each datagram, the first 4 bytes give its name (dgType: CON0, NME0, RAW0,
+etc.), followed by the time (next 8 bytes), and then the datagram data 
+according to its type. 
 The output of this fuction is key for extracting configuration data (header and 
-transceiver info), nmea sentences, and acoustic raw data (received power and angles).
+transceiver information), nmea sentences, and acoustic raw data (received power 
+and angles).
 }
 \examples{
-fn <- system.file("extdata", "demo-D20130504-T083828.raw", package = "echogram")
-dgIdx <- get_dgIdx(fn)
+if(interactive()){
+dgIdx <- get_dgIdx("D20130504-T083828.raw")
 head(dgIdx)
- 
+} 
 }
 \author{
-Héctor Villalobos
+Héctor Villalobos.
 }

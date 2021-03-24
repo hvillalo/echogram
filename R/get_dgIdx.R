@@ -1,36 +1,38 @@
 #' Get datagram indices from EK* raw files
 #'
-#' Find the datagram types and lengths, and their respective indices in EK* raw files
+#' Find the datagram types and lengths, and their respective indices in EK* raw files.
 #' 
-#' @param raw A raw vector imported via \code{read.EK_raw} or an EK* raw file name
+#' @param raw A raw vector imported via \code{read.EK_raw} or an EK* raw file name.
 #' 
 #' @details In EK* raw files, the first 4 bytes before every datagram contain its
-#' length (dgLen), which is repeated after the datagram data, before the length 
+#' length (dgLen), which is repeated after the datagram data and before the length 
 #' of the next datagram. So, for skipping from one datagram to the next, it takes
 #' 4 + dgLen + 4 + 1.  
-#' Within each datagram, the first 4 bytes give its name (dgType: CON0, NME0, RAW0, etc.),
-#' followed by the time in the next 8 bytes, and then the datagram data according to its type. 
+#' Within each datagram, the first 4 bytes give its name (dgType: CON0, NME0, RAW0,
+#' etc.), followed by the time (next 8 bytes), and then the datagram data 
+#' according to its type. 
 #' The output of this fuction is key for extracting configuration data (header and 
-#' transceiver info), nmea sentences, and acoustic raw data (received power and angles).
+#' transceiver information), nmea sentences, and acoustic raw data (received power 
+#' and angles).
 #'
 #' @return A data frame with datagram types (CON0, NME0, RAW0, etc.) and lengths, 
-#'         and most important, the indices for extracting each datagram.
+#'         and most importantly, the indices where each datagram is located.
 #' 
-#' @author Héctor Villalobos  
+#' @author Héctor Villalobos.  
 #' 
 #' @examples
-#' fn <- system.file("extdata", "demo-D20130504-T083828.raw", package = "echogram")
-#' dgIdx <- get_dgIdx(fn)
+#' if(interactive()){
+#' dgIdx <- get_dgIdx("D20130504-T083828.raw")
 #' head(dgIdx)
-#'  
+#' } 
 get_dgIdx <- function(raw){
   if (!inherits(raw, "raw"))
     raw <- read.EK_raw(raw)
   fsize <- length(raw)
   
-  # initial (BiL) and final (BfL) Bytes with datagram length 
-  BiL <- i <- 1 
-  BfL <- k <- 4
+  # starting (sdgL) and ending (edgL) bytes with datagram length 
+  sdgL <- i <- 1 
+  edgL <- k <- 4
   dgLen <- dgL <- readBin(raw[i:k], 'integer', size = 4) 
   dgType <- dgT <- rawToChar(raw[(i + 4):(k + 4)]) 
 
@@ -40,21 +42,22 @@ get_dgIdx <- function(raw){
     dgL <- readBin(raw[i:k], 'integer', size = 4) 
     if (dgL == 0)
       break()
-    BiL <- c(BiL, i) 
-    BfL <- c(BfL, k) 
+    sdgL <- c(sdgL, i) 
+    edgL <- c(edgL, k) 
     dgLen <- c(dgLen, dgL)
-    dgT <- rawToChar(raw[(i+4):(k+4)])
+    dgT <- rawToChar(raw[(i + 4):(k + 4)])
     dgType <- c(dgType, dgT)
   }
 
-  # initial and final Bytes with datagram type 
-  BiT <- BfL + 1
-  BfT <- BiT + 3
-  # initial and final Bytes with datagram data  
-  BiD <- BiL + 8
-  BfD <- BiD + dgLen - 5
+  # starting (sdgT) and ending (edgT) bytes with datagram type 
+  sdgT <- edgL + 1
+  edgT <- sdgT + 3
+  
+  # starting (sdgD) and ending (edgD) bytes with datagram data  
+  sdgD <- sdgL + 8
+  edgD <- sdgD + dgLen - 5
 
   # Datagram index table
-  dgIdx <- data.frame(BiL, BfL, dgLen, BiT, BfT, dgType, BiD, BfD)
+  dgIdx <- data.frame(sdgL, edgL, dgLen, sdgT, edgT, dgType, sdgD, edgD)
   dgIdx
 }

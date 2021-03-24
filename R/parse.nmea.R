@@ -1,11 +1,40 @@
-## Parse NMEA data 
-#
-#  The function can automatically detect the NMEA sentences present in the data,
-# however, sometimes data is corrupted, so the user can select which of the 
-# various sentences to process
-#
-#  See NMEA sentences structure in: https://gpsd.gitlab.io/gpsd/NMEA.html
-#
+#' Parse NMEA sentences 
+#'
+#' Find and parse GPS data from NMEA sentences.
+#'
+#' @param nmea A data frame with CPU time and corresponding NMEA sentences
+#' as returned by \code{get_NME0}.
+#' 
+#' @param sentence A string identifying the NMEA sentence to process. It
+#' can be one of "GPGGA", "INGGA", "GPGLL", "GPRMC".
+#'
+#' @param returnAll logical. If \code{TRUE}, all data found in the selected
+#' sentence is returned.
+#'
+#' @details This function identifies among the sentences found in the data, 
+#' the one with more information (more GPS fixes). However, sometimes they 
+#' may be corrupted, so the user can choose a different sentence to process.
+#' This is why \code{get_NME0} does not parse the NMEA strings by default. 
+#' If sentences: "GPVTG", "INVTG", "GNVTG", or "IIVTG" are found, vessel 
+#' speed and bearing are also parsed and returned.
+#'
+#' @return A data frame with cpu time, gps time, miliseconds, longitude, and
+#' latitude. Also, vessel speed and bearing if found in the data.
+#'
+#' @author Héctor Villalobos.   
+#'
+#' @seealso \code{get_NME0}.
+#'
+#' @references NMEA sentences structure can be seen in: 
+#' \url{https://gpsd.gitlab.io/gpsd/NMEA.html}
+#'
+#' @examples
+#' if(interactive()){
+#' ek <- read.EK60_raw("D20130504-T083828.raw", angles = FALSE)
+#' 
+#' gps <- parse.nmea(ek$nmea)
+#' head(gps)
+#' }
 parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
 {
   #datetime <- paste(substr(date.real, 1, 10), GPS$time.gps)
@@ -83,14 +112,6 @@ parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
     lon[idxW] <- -lon[idxW]
 
   ans <- data.frame(dgTime = dgTime, time.gps = time, ms = ms, lon = lon, lat = lat)
-
-  if (returnAll == TRUE){
-    ans <- GPSs
-    ans[, idx[1]] <- time
-    ans[, idx[2]] <- lat
-    ans[, idx[4]] <- lon
-    ans$ms <- ms
-  }
   nr <- nrow(ans)
   
   # If vessel speed and bearing are found 
@@ -132,6 +153,9 @@ parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
     }
     ans$bearing <- bearing
     ans$speed <- speed
+  }
+  if (returnAll == TRUE){
+    ans <- data.frame(ans, GPSs)
   }
   return(ans)
 }

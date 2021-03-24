@@ -1,14 +1,16 @@
-#' Extract transceiver configuration from imported EK* raw files.
+#' Extract transceiver configuration from EK60 raw files
 #' 
-#' Extract datagram time and convert it to POSIXct.
+#' Find and extract transceiver configuration information from imported EK60 raw files.
 #'
 #' @param raw A raw vector imported via \code{read.EK_raw}.
 #'
 #' @param ini Initial byte with transceiver data
 #' 
-#' @details This function should not be called directly by the user.
+#' @details The index (ini) comes from output of \code{get_dgIdx} 
+#' function. This function should not be called directly by the user.
 #'
-#' @return a data frame with transceiver configuration info.
+#' @return a data frame with transceiver configuration: channel ID, beamtypes, 
+#' frequency, gain, equivalent beam angle, etc. for each transceiver.
 #'
 #' @author Héctor Villalobos   
 #' 

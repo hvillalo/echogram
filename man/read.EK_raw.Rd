@@ -7,20 +7,24 @@
 read.EK_raw(file)
 }
 \arguments{
-\item{file}{EK* raw file name}
+\item{file}{EK* raw file name.}
 }
 \value{
 A vector of class ``raw''.
 }
 \description{
-This function will read the whole Simrad EK* raw file as raw bytes.
+This function imports Simrad EK60 or EK80 raw files as raw bytes.
 }
 \details{
-This function is not intended to be called directly by the user, as  
-it returns hex digits that should be first interpreted to be useful. Instead, 
-\code{read.EK_raw} is called by other echogram functions that also convert 
-the data to the appropriate type.
+This function will return raw bytes as hex digits, therefore is not   
+intended to be called directly by the user. Instead, \code{read.EK_raw} is 
+called by other echogram's functions that also convert the various datagrams
+in EK60 files to their appropriate type.
+}
+\seealso{
+\code{read.EK60_raw}, \code{get_CON0}, \code{get_NME0}, and
+\code{get_RAW0}.
 }
 \author{
-Héctor Villalobos
+Héctor Villalobos.
 }

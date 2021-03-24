@@ -2,25 +2,29 @@
 % Please edit documentation in R/get_RAW0.R
 \name{get_RAW0}
 \alias{get_RAW0}
-\title{Get RAW0 datagrams from imported EK60 raw files.}
+\title{Get RAW0 datagrams from imported EK60 raw files}
 \usage{
 get_RAW0(raw, angles)
 }
 \arguments{
-\item{raw}{An imported EK60 raw file or a raw file name}
+\item{raw}{A raw vector imported via \code{read.EK_raw} or an EK60 raw file name.}
 
-\item{angles}{Logical. If TRUE, and angle data is present, an array
-containing alongship and atwarthship electrical angles is returned.}
+\item{angles}{Logical. If \code{TRUE} and angle data is present, a four dimensions
+array containing alongship and atwarthship electrical angles is also returned.}
 }
 \value{
-A list with sample data information, and an array with received power.
+A list with pings data, which includes a sample data table, and 
+        received power in a three dimensions array corresponding to the 
+        number of depth samples, number of pings, and number of transceivers. 
+        When \code{angles = TRUE}, alongship and athwartship electrical 
+        angles are also returned as an array with an extra dimension.
 }
 \description{
 Read the acoustic sample data stored in RAW0 datagrams.
 }
 \details{
-Not to be called directly by the user.
+This function is not meant to be called directly by the user.
 }
 \author{
-Héctor Villalobos
+Héctor Villalobos.
 }

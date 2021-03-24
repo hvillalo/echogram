@@ -7,23 +7,27 @@
 get_CON0(raw)
 }
 \arguments{
-\item{raw}{An imported EK60 raw file or a raw file name}
+\item{raw}{A raw vector imported via \code{read.EK_raw} or an EK60 raw file name.}
 }
 \value{
-A list with header and transceiver configuration
+A list with two data frames: Header, containing survey-, transect- 
+and sounder names, software version, and number of transceivers; Transceiver,
+with channel ID, beamtypes, frequency, gain, equivalent beam angle, etc. for 
+each transceiver.
 }
 \description{
 Read the echosounder configuration information stored in CON0 datagram.
 }
 \details{
-Not to be called directly by the user.
+While it can be used for reading the configuration data from an 
+EK60 raw file, this function is not meant to be called directly by the user.
 }
 \examples{
-fn <- system.file("extdata", "demo-D20130504-T083828.raw", package = "echogram")
-config <- get_CON0(fn)
+if(interactive()){
+config <- get_CON0("D20130504-T083828.raw")
 config
-
+}
 }
 \author{
-Héctor Villalobos
+Héctor Villalobos.
 }

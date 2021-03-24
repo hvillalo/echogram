@@ -2,7 +2,7 @@
 % Please edit documentation in R/xcvrConf.R
 \name{xcvrConf}
 \alias{xcvrConf}
-\title{Extract transceiver configuration from imported EK* raw files.}
+\title{Extract transceiver configuration from EK60 raw files}
 \usage{
 xcvrConf(raw, ini)
 }
@@ -12,13 +12,15 @@ xcvrConf(raw, ini)
 \item{ini}{Initial byte with transceiver data}
 }
 \value{
-a data frame with transceiver configuration info.
+a data frame with transceiver configuration: channel ID, beamtypes, 
+frequency, gain, equivalent beam angle, etc. for each transceiver.
 }
 \description{
-Extract datagram time and convert it to POSIXct.
+Find and extract transceiver configuration information from imported EK60 raw files.
 }
 \details{
-This function should not be called directly by the user.
+The index (ini) comes from output of \code{get_dgIdx} 
+function. This function should not be called directly by the user.
 }
 \author{
 Héctor Villalobos

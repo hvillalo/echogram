@@ -2,19 +2,23 @@
 #' 
 #' Read the echosounder configuration information stored in CON0 datagram.
 #' 
-#' @param raw An imported EK60 raw file or a raw file name
+#' @param raw A raw vector imported via \code{read.EK_raw} or an EK60 raw file name.
 #' 
-#' @return A list with header and transceiver configuration
-#' 
-#' @details Not to be called directly by the user.
+#' @return A list with two data frames: Header, containing survey-, transect- 
+#' and sounder names, software version, and number of transceivers; Transceiver,
+#' with channel ID, beamtypes, frequency, gain, equivalent beam angle, etc. for 
+#' each transceiver.
 #'
-#' @author Héctor Villalobos   
+#' @details While it can be used for reading the configuration data from an 
+#' EK60 raw file, this function is not meant to be called directly by the user.
+#'
+#' @author Héctor Villalobos.   
 #'
 #' @examples
-#' fn <- system.file("extdata", "demo-D20130504-T083828.raw", package = "echogram")
-#' config <- get_CON0(fn)
+#' if(interactive()){
+#' config <- get_CON0("D20130504-T083828.raw")
 #' config
-#'
+#' }
 get_CON0 <- function(raw){
   if (!inherits(raw, "raw"))
     raw <- read.EK_raw(raw)
@@ -22,20 +26,19 @@ get_CON0 <- function(raw){
   idx <- dgIdx$dgType == "CON0"
   if (sum(idx) > 0){
     idx <- dgIdx[idx, ]
-    ini <- idx$BiD
-    dgtime <- dgTime(raw, ini) # Nota: No se ocupa?
+    ini <- idx$sdgD
+    dgT <- dgTime(raw, ini)
     len <- c(4, 4, rep(128, 4), 4)
     i <- c(ini, ini + cumsum(len))[1:length(len)]
     k <- i + len - 1
     surveyName <- rawToChar(raw[i[3]:k[3]])
     transectName <- rawToChar(raw[i[4]:k[4]])
     sounderName <- rawToChar(raw[i[5]:k[5]])
-    version <- rawToChar(raw[i[6]:(k[6]-123)]) 
-    transceiverCount <- readBin(raw[i[7]:k[7]], what = 'integer', n = 1, 
-                                size = 4, signed	= TRUE, endian = "little")
+    version <- rawToChar(raw[i[6]:(k[6] - 123)]) # the full chunk causes an error
+    transceiverCount <- readBin(raw[i[7]:k[7]], 'integer', 1, 4, endian = "little")
     
-    Header <- data.frame(surveyName, transectName, sounderName, version, 
-                           transceiverCount)
+    Header <- data.frame(dgTime = dgT, surveyName, transectName, sounderName, 
+                         version, transceiverCount)
     
     # Transceiver(s) configuration
     ntr <- Header$transceiverCount

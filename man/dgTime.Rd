@@ -2,17 +2,17 @@
 % Please edit documentation in R/dgTime.R
 \name{dgTime}
 \alias{dgTime}
-\title{Get datagram time from imported EK* raw files.}
+\title{Get datagram time from imported EK* raw files}
 \usage{
 dgTime(raw, ini)
 }
 \arguments{
 \item{raw}{A raw vector imported via \code{read.EK_raw}.}
 
-\item{ini}{Initial byte with time data}
+\item{ini}{Initial byte with time data.}
 }
 \value{
-datagram time in POSIXct format
+datagram time in POSIXct format.
 }
 \description{
 Extract datagram time and convert it to POSIXct.
@@ -21,9 +21,9 @@ Extract datagram time and convert it to POSIXct.
 The cpu time is stored in the first 8 bytes of every datagram, 
 after its name. It is assumed that the time zone is UTC, which may not
 be the case. By comparig with gps time in nmea data, a correction may 
-be applied if needed. The index (ini) comes from output of get_dgIDX() 
+be applied if needed. The index (ini) comes from output of \code{get_dgIdx} 
 function. This function should not be called directly by the user.
 }
 \author{
-Héctor Villalobos
+Héctor Villalobos.
 }

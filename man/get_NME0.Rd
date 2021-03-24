@@ -2,32 +2,33 @@
 % Please edit documentation in R/get_NME0.R
 \name{get_NME0}
 \alias{get_NME0}
-\title{Get NME0 datagrams from imported EK* raw files.}
+\title{Get NME0 datagrams from imported EK* raw files}
 \usage{
 get_NME0(raw)
 }
 \arguments{
-\item{raw}{An imported EK* raw file or a raw file name}
+\item{raw}{A raw vector imported via \code{read.EK_raw} or an EK* raw file name.}
 }
 \value{
-A data frame with CPU time and corresponding NMEA data
+A data frame with CPU time and corresponding NMEA sentences
+as text strings.
 }
 \description{
 Read the NMEA sentences stored in NME0 datagrams.
 }
 \details{
-For parsing NMEA sentences, \code{parse.nmea()} function
-should be used.
+The GPS data stored in the output of this function needs to be parsed
+to be useful. This is done with \code{parse.nmea()} function.
 }
 \examples{
-fn <- system.file("extdata", "demo-D20130504-T083828.raw", package = "echogram")
-nmea <- get_NME0(fn)
+if(interactive()){
+nmea <- get_NME0("D20130504-T083828.raw")
 head(nmea)
- 
+} 
 }
 \seealso{
 \code{parse.nmea}
 }
 \author{
-Héctor Villalobos
+Héctor Villalobos.
 }
