@@ -18,7 +18,7 @@ sentence is returned.}
 }
 \value{
 A data frame with cpu time, gps time, miliseconds (already added
-in gps time when the chossen sentence is "GPRMC"), longitude, and
+in gps time when the procesed sentence is "GPRMC"), longitude, and
 latitude. Additionally, vessel speed and bearing are returned if found in
 the data.
 }
@@ -27,13 +27,14 @@ Find and parse GPS data from NMEA sentences.
 }
 \details{
 This function looks first for the "GPRMC" sentence, if not found  
-it tries then with "GPGGA", "INGGA", or "GPGLL", and process the one 
-more information (more GPS fixes). Be ware that sometimes strings may be
-corrupted, so it is possible to choose manually the sentence to process.
-This is why \code{get_NME0} does not parse the NMEA strings by default. 
+it tries then with "GPGGA", "INGGA", or "GPGLL", and process the one with
+more information (more GPS fixes). Be aware that sometimes strings may be
+corrupted, in which case, it is possible to choose manually the sentence 
+to process. This is why \code{get_NME0} does not automatically parse the 
+NMEA strings by default. 
 When one of "GPVTG", "INVTG", "GNVTG", or "IIVTG" sentences is found, vessel 
 speed and bearing are also parsed and returned. 
-Differences in time.cpu and gps.time may reveal wrong clock settings in the 
+Differences in time.cpu and time.gps may reveal wrong clock settings in the 
 data aquisition computer.
 }
 \examples{

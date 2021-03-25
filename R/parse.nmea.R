@@ -12,17 +12,18 @@
 #' sentence is returned.
 #'
 #' @details This function looks first for the "GPRMC" sentence, if not found  
-#' it tries then with "GPGGA", "INGGA", or "GPGLL", and process the one 
-#' more information (more GPS fixes). Be ware that sometimes strings may be
-#' corrupted, so it is possible to choose manually the sentence to process.
-#' This is why \code{get_NME0} does not parse the NMEA strings by default. 
+#' it tries then with "GPGGA", "INGGA", or "GPGLL", and process the one with
+#' more information (more GPS fixes). Be aware that sometimes strings may be
+#' corrupted, in which case, it is possible to choose manually the sentence 
+#' to process. This is why \code{get_NME0} does not automatically parse the 
+#' NMEA strings by default. 
 #' When one of "GPVTG", "INVTG", "GNVTG", or "IIVTG" sentences is found, vessel 
 #' speed and bearing are also parsed and returned. 
-#' Differences in time.cpu and gps.time may reveal wrong clock settings in the 
+#' Differences in time.cpu and time.gps may reveal wrong clock settings in the 
 #' data aquisition computer.
 #'
 #' @return A data frame with cpu time, gps time, miliseconds (already added
-#' in gps time when the chossen sentence is "GPRMC"), longitude, and
+#' in gps time when the procesed sentence is "GPRMC"), longitude, and
 #' latitude. Additionally, vessel speed and bearing are returned if found in
 #' the data.
 #'
@@ -99,7 +100,7 @@ parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
   # create time string
   time <- paste(substr(ti, 1, 2), substr(ti, 3, 4), sec, sep=":")
   
-  # Date, when "GPRMC" is present
+  # Date, when "GPRMC" is procesed
   if(length(idx) > 5){
     da <- GPSs[, idx[6]]
     date <- paste(substr(da, 1, 2), substr(da, 3, 4), substr(da, 5, 6), sep="/")
