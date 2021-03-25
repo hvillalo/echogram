@@ -34,7 +34,7 @@ read.EK_bot <- function(file){
   np <- nrow(idx)
  
   bottom <- matrix(NA, ncol = ntr, nrow = np)
-  pingTime <- .POSIXct(double(np))
+  pingTime <- .POSIXct(double(np), tz = "UTC")
   
   # loop over the pings
   for (p in 1:np){

@@ -30,7 +30,7 @@
 convertPower <- function(ekraw, frequency = NULL, output = "Sv"){
   xcvrConf <- ekraw$config$Transceiver
   sdat <- ekraw$pings$sampleData
-  if (missing(frq))
+  if (missing(frequency))
     frequency <- 1
   frq <- frequency	
   # Received power (Pr)

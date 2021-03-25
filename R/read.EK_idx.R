@@ -29,7 +29,7 @@ read.EK_idx <- function(file){
   np <- nrow(idx)
   
   pings <- data.frame(pingNumber = rep(NA, np), vesselDistance = NA, lat = NA, lon = NA, offset = NA)
-  pingTime <- .POSIXct(double(np))
+  pingTime <- .POSIXct(double(np), tz = "UTC")
   
   # loop over the pings
   for (p in 1:np){

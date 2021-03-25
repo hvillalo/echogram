@@ -26,15 +26,14 @@ get_NME0 <- function(raw){
   idx <- dgIdx$dgType == "NME0"
   if (sum(idx) > 0){
     idx <- dgIdx[idx, ]
-    nmea <- rawToChar(raw[(idx$sdgD[1] + 8):idx$edgD[1]])
-    dgtime <- dgTime(raw, ini = idx$sdgD[1])
-    for (k in 2:nrow(idx)){
-      nm <- rawToChar(raw[(idx$sdgD[k] + 8):idx$edgD[k]])
-      nmea <- c(nmea, nm)
-      dgT <-  dgTime(raw, ini = idx$sdgD[k])
-      dgtime <- c(dgtime, dgT)
+    n <- nrow(idx)
+    dgT <- .POSIXct(double(n), tz = "UTC")
+    nmea <- rep("", n)
+    for (k in 1:n){
+      dgT[k] <-  dgTime(raw, ini = idx$sdgD[k])     
+      nmea[k] <- rawToChar(raw[(idx$sdgD[k] + 8):idx$edgD[k]])
     }
-    nmea <- data.frame(dgTime = dgtime, nmea = nmea)
+    nmea <- data.frame(dgTime = dgT, nmea = nmea)
   } else {
      stop("No NMEA data have been found in raw data")
   }  

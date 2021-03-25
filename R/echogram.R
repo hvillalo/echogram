@@ -115,7 +115,12 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
       R <- echo$depth
       bl <- bot  <- echo$pings$detBottom
       for (k in 1:length(bl)){
-        bl[k] <- which.min(abs(R - bot[k]))
+        db <- bot[k]
+        if (!is.na(db)){
+          bl[k] <- which.min(abs(R - bot[k]))
+        } else {
+          bl[k] <- NA
+        }  
       }
 	  bl <- length(R) - bl
       lines(bl, ...)	
