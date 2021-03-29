@@ -28,12 +28,12 @@ get_NME0 <- function(raw){
     idx <- dgIdx[idx, ]
     n <- nrow(idx)
     dgT <- .POSIXct(double(n), tz = "UTC")
-    nmea <- rep("", n)
+    string <- rep("", n)
     for (k in 1:n){
       dgT[k] <-  dgTime(raw, ini = idx$sdgD[k])     
-      nmea[k] <- rawToChar(raw[(idx$sdgD[k] + 8):idx$edgD[k]])
+      string[k] <- rawToChar(raw[(idx$sdgD[k] + 8):idx$edgD[k]])
     }
-    nmea <- data.frame(dgTime = dgT, nmea = nmea)
+    nmea <- data.frame(dgTime = dgT, string = string)
   } else {
      stop("No NMEA data have been found in raw data")
   }  

@@ -22,10 +22,9 @@
 #' Differences in time.cpu and time.gps may reveal wrong clock settings in the 
 #' data aquisition computer.
 #'
-#' @return A data frame with cpu time, gps time, miliseconds (already added
-#' in gps time when the procesed sentence is "GPRMC"), longitude, and
-#' latitude. Additionally, vessel speed and bearing are returned if found in
-#' the data.
+#' @return A data frame with cpu time, gps time (includes miliseconds if found),
+#' longitude, and latitude. Additionally, vessel speed and bearing are returned 
+#' if found in the data.
 #'
 #' @author Héctor Villalobos.   
 #'
@@ -44,14 +43,18 @@
 parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
 {
   # Available sentences in the data
-  sentences <- substr(nmea[, 2], 2, 6)
+  sentences <- substr(nmea[, 'string'], 2, 6)
   # Sentences with position data. More than one may be present.
   swp <- c("GPRMC", "GPGGA", "INGGA", "GPGLL")
   # columns' indices
   idx <- list(GPRMC = c(2, 4:7, 10), GPGGA = 2:6, INGGA = 2:6, GPGLL = c(6, 2:5))  
   # find out which are present
   px <- swp %in% sentences
+  if (sum(px) == 0){
+    ans <- data.frame(time.cpu = NA, time.gps = NA, lon = NA, lat = NA)
+  } else {	
   swp <- swp[px]
+  idx <- idx[px]
   
   # Manual selection
   if (!missing(sentence)){
@@ -79,33 +82,31 @@ parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
       idx <- idx[[ix]]
     }
   }  
-  GPSs <- nmea[at, 2]
+  GPSs <- nmea[at, 'string']
   dgTime <- nmea[at, 'dgTime']
   nc <- length(unlist(strsplit(GPSs[1], split = ",")))
-  spl <- unlist(strsplit(GPSs, split = ","))
-  GPSs <- as.data.frame(matrix(spl, ncol = nc, byrow = TRUE))
+  spl <- strsplit(GPSs, split = ",")
+  #spl <- unlist(strsplit(GPSs, split = ","))
+  #GPSs <- as.data.frame(matrix(spl, ncol = nc, byrow = TRUE))
+  GPSs <- plyr::ldply(spl, rbind)
   
   # Time
   ti <- GPSs[, idx[1]]
   nchar.ti <- unlist(lapply(ti, nchar))
   
-  # there are miliseconds? 
-  if (all(nchar.ti - 9 == 0)){
-    ms <- as.numeric(ti) %% 1
-  } else {
-    ms <- rep(0, length(ti))
-  }
-  # add ms to seconds
-  sec <- paste(substr(ti, 5, 6), ms, sep = ".")
   # create time string
-  time <- paste(substr(ti, 1, 2), substr(ti, 3, 4), sec, sep=":")
+  time <- paste(substr(ti, 1, 2), substr(ti, 3, 4), substr(ti, 5, nchar.ti), sep=":")
   
-  # Date, when "GPRMC" is procesed
+  # Date
   if(length(idx) > 5){
     da <- GPSs[, idx[6]]
     date <- paste(substr(da, 1, 2), substr(da, 3, 4), substr(da, 5, 6), sep="/")
     DT <- paste(date, time)
     time <- strptime(DT, format = "%d/%m/%y %H:%M:%OS", tz = "UTC")
+  } else {
+    date <- as.Date(dgTime)
+    DT <- paste(date, time)
+    time <- strptime(DT, format = "%Y-%m-%d %H:%M:%OS", tz = "UTC")
   }
       
   # Decimal Longitudes and Latitudes     
@@ -123,7 +124,7 @@ parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
   if (length(idxW) > 0 )
     lon[idxW] <- -lon[idxW]
 
-  ans <- data.frame(time.cpu = dgTime, time.gps = time, ms = ms, lon = lon, lat = lat)
+  ans <- data.frame(time.cpu = dgTime, time.gps = time, lon = lon, lat = lat)
   nr <- nrow(ans)
   
   # If vessel speed and bearing are found 
@@ -146,7 +147,7 @@ parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
     dr <- dr[idx]
     
     atVTG <- grep(vs[idx], sentences) 
-    VTG <- nmea[atVTG, 2]
+    VTG <- nmea[atVTG, 'string']
     len <- length(unlist(strsplit(VTG[1], split = ",")))
     spl <- unlist(strsplit(VTG, split = ","))
     VTG <- as.data.frame(matrix(spl, ncol = len, byrow = TRUE))
@@ -167,6 +168,7 @@ parse.nmea <- function(nmea, sentence = NULL, returnAll = FALSE)
   }
   if (returnAll == TRUE){
     ans <- data.frame(ans, GPSs)
+  }
   }
   return(ans)
 }

@@ -17,10 +17,9 @@ can be one of "GPRMC", "GPGGA", "INGGA", or "GPGLL".}
 sentence is returned.}
 }
 \value{
-A data frame with cpu time, gps time, miliseconds (already added
-in gps time when the procesed sentence is "GPRMC"), longitude, and
-latitude. Additionally, vessel speed and bearing are returned if found in
-the data.
+A data frame with cpu time, gps time (includes miliseconds if found),
+longitude, and latitude. Additionally, vessel speed and bearing are returned 
+if found in the data.
 }
 \description{
 Find and parse GPS data from NMEA sentences.
