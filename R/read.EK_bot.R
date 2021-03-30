@@ -32,15 +32,19 @@ read.EK_bot <- function(file){
   
   # there is one BOT0 datagram for every ping
   np <- nrow(idx)
- 
-  bottom <- matrix(NA, ncol = ntr, nrow = np)
-  pingTime <- .POSIXct(double(np), tz = "UTC")
+  if (np > 0){
+    bottom <- matrix(NA, ncol = ntr, nrow = np)
+    pingTime <- .POSIXct(double(np), tz = "UTC")
   
-  # loop over the pings
-  for (p in 1:np){
-    pingTime[p] <-  dgTime(bot, ini = idx$sdgD[p])
-    # in BOT0 datagrams, 8 bytes contain the pingtime, and the next 4 the transceiver count
-    bottom[p, ] <- readBin(bot[(idx$sdgD[p] + 12):idx$edgD[p]], 'double', ntr, endian = "little")
+    # loop over the pings
+    for (p in 1:np){
+      pingTime[p] <-  dgTime(bot, ini = idx$sdgD[p])
+      # in BOT0 datagrams, 8 bytes contain the pingtime, and the next 4 the transceiver count
+      bottom[p, ] <- readBin(bot[(idx$sdgD[p] + 12):idx$edgD[p]], 'double', ntr, endian = "little")
+    } 
+  } else {
+      bottom <- matrix(NA, ncol = ntr, nrow = 1)
+      pingTime <- .POSIXct(double(1), tz = "UTC")
   }
   ans <- data.frame(pingTime = pingTime, bottom)
   names(ans)[2:(2 + ntr - 1)] <- paste("depth.tr", 1:ntr, sep = "")
