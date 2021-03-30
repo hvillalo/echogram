@@ -43,8 +43,11 @@ read.EK_bot <- function(file){
       bottom[p, ] <- readBin(bot[(idx$sdgD[p] + 12):idx$edgD[p]], 'double', ntr, endian = "little")
     } 
   } else {
-      bottom <- matrix(NA, ncol = ntr, nrow = 1)
-      pingTime <- .POSIXct(double(1), tz = "UTC")
+    # get dgTime from CON0 datagram
+    idx <- dgIdx[dgIdx$dgType == "CON0", ]
+    ini <- idx$sdgD
+    bottom <- matrix(NA, ncol = ntr, nrow = 1)
+    pingTime <- dgTime(bot, ini)
   }
   ans <- data.frame(pingTime = pingTime, bottom)
   names(ans)[2:(2 + ntr - 1)] <- paste("depth.tr", 1:ntr, sep = "")
