@@ -65,6 +65,8 @@ convertPower <- function(ekraw, frequency = NULL, output = "Sv"){
   saCT <- xcvrConf[frq, 'saCorrT'][[1]]
   tmp <- data.frame(plT, gT, saCT)
   sAcorr <- tmp[tmp$plT == tau, 'saCT']
+  if (length(sAcorr) == 0)
+    sAcorr <- 0
  
   # Received Power to Sv 
   # S_V(R, P_r) = P_r + 20log(R) + 2\alpha R - 10log(\frac{P_t G_0^2 \lambda ^2}{16 \pi^2}) -10log(\frac{c \tau \psi}{2}) -2 S_a\;corr
