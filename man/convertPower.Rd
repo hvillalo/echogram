@@ -4,7 +4,7 @@
 \alias{convertPower}
 \title{Convert Received Power to Sv or TS}
 \usage{
-convertPower(ekraw, frequency = NULL, output = "Sv")
+convertPower(ekraw, frequency = NULL, output = "Sv", saCorr)
 }
 \arguments{
 \item{ekraw}{Imported EK60 data, as returned by \code{read.EK60_raw}.}
@@ -14,6 +14,8 @@ in the data to convert.}
 
 \item{output}{A string indicating whether the power should be converted to 
 acoustic backscattering strength (``Sv'') or to target strength (``TS'').}
+
+\item{saCorr}{sa correction value from calibration}
 }
 \value{
 A two dimensions array [depth samples, pings] with the desired 

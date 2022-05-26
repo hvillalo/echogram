@@ -4,7 +4,13 @@
 \alias{ek2echogram}
 \title{Convert EK60 data to echogram}
 \usage{
-ek2echogram(ekraw, frequency = 1, data = "Sv")
+ek2echogram(
+  ekraw,
+  frequency = 1,
+  data = "Sv",
+  environment = NULL,
+  calibration = NULL
+)
 }
 \arguments{
 \item{ekraw}{Imported EK60 data, as returned by \code{read.EK60_raw}.}
@@ -14,6 +20,13 @@ in the data to be converted.}
 
 \item{data}{A string indicating the desired data: acoustic backscattering 
 strength (``Sv'') or target strength (``TS'').}
+
+\item{environment}{An optional list with two elements: ``soundVelocity'' and 
+``absorptionCoeff'' calculated according to sea temperature and salinity
+measured during data collection.}
+
+\item{calibration}{A list as above, with ``gain'' and ``saCorr'' obtained 
+from the echosounder calibration.}
 }
 \value{
 A vector with sample range (m).

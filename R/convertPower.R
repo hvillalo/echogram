@@ -10,6 +10,8 @@
 #' @param output A string indicating whether the power should be converted to 
 #' acoustic backscattering strength (``Sv'') or to target strength (``TS'').
 #' 
+#' @param saCorr sa correction value from calibration
+#' 
 #' @details While the function operates on the EK60 data, it should be preferable 
 #' used through \code{ek2echogram}, which will convert the ek data to echogram.
 #'
@@ -27,7 +29,7 @@
 #' Sv <- convertPower(ek, output = "Sv")
 #' image(Sv)
 #' }
-convertPower <- function(ekraw, frequency = NULL, output = "Sv"){
+convertPower <- function(ekraw, frequency = NULL, output = "Sv", saCorr){
   xcvrConf <- ekraw$config$Transceiver
   sdat <- ekraw$pings$sampleData
   if (missing(frequency))
@@ -60,18 +62,19 @@ convertPower <- function(ekraw, frequency = NULL, output = "Sv"){
   psi <- 10^(EBA/10) 
   
   # sa correction table
-  plT <- xcvrConf[frq, 'pulseLengthT'][[1]]
-  gT <- xcvrConf[frq, 'gainT'][[1]]
-  saCT <- xcvrConf[frq, 'saCorrT'][[1]]
-  tmp <- data.frame(plT, gT, saCT)
-  sAcorr <- tmp[tmp$plT == tau, 'saCT']
-  if (length(sAcorr) == 0)
-    sAcorr <- 0
- 
+  if (missing(saCorr)) {
+    plT <- xcvrConf[frq, 'pulseLengthT'][[1]]
+    gT <- xcvrConf[frq, 'gainT'][[1]]
+    saCT <- xcvrConf[frq, 'saCorrT'][[1]]
+    tmp <- data.frame(plT, gT, saCT)
+    saCorr <- tmp[tmp$plT == tau, 'saCT']
+    if (length(saCorr) == 0)
+      saCorr <- 0
+  }
   # Received Power to Sv 
   # S_V(R, P_r) = P_r + 20log(R) + 2\alpha R - 10log(\frac{P_t G_0^2 \lambda ^2}{16 \pi^2}) -10log(\frac{c \tau \psi}{2}) -2 S_a\;corr
   if (output == "Sv"){
-    S1 <- (20 * log10(R)) + (2 * alpha * R) - (10 * log10((Pt * Go^2 * lambda^2) / (16 * pi^2))) - (10 * log10((ss * tau * psi) / 2)) - (2 * sAcorr)
+    S1 <- (20 * log10(R)) + (2 * alpha * R) - (10 * log10((Pt * Go^2 * lambda^2) / (16 * pi^2))) - (10 * log10((ss * tau * psi) / 2)) - (2 * saCorr)
   }	
   # Received Power to TS
   # S_V(R, P_r) = P_r + 40log(R) + 2\alpha R - 10log(\frac{P_t G_0^2 \lambda ^2}{16 \pi^2})

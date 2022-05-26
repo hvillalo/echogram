@@ -30,8 +30,7 @@ sampleRange <- function(ekraw, frequency = NULL){
   frq <- frequency
   # number of depth samples
   nd <- dim(ekraw$pings$Pr)[1]
-  # sound speed (m/s) assuming constant sound speed and constant sample interval
-  # accross all pings
+  # sound speed (m/s) assuming sound speed and sample interval are constant accross all pings
   ss <-  sdat[, , frq][1, 'soundVelocity']
   # sample interval (s/sample)
   si <- sdat[, , frq][1, 'sampleInterval']
