@@ -2,6 +2,7 @@
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/echogram)](http://cran.r-project.org/package=echogram)
 [![](https://cranlogs.r-pkg.org/badges/echogram)](https://cran.r-project.org/package=echogram)
+[![total](https://cranlogs.r-pkg.org/badges/grand-total/echogram)](https://cran.r-project.org/package=echogram) 
 
 Echogram Visualisation and Analysis
 
