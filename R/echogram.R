@@ -2,7 +2,7 @@ echogram <-
 function(echogram, Svthr = -70, Svmax = 0, col.sep = NULL, col.nb = NULL, scheme = NULL,  
          depth.grid = NULL, x.grid = NULL, x.ref = c("pings", "nmi", "seconds"), 
          seabed = FALSE, depth.max = NULL, ping.ini = NULL, ping.max = NULL, colbar=TRUE, 
-         main = NULL, tformat = "%H:%M", ...){
+         main = NULL, tformat = "%H:%M", restore.par = TRUE, ...){
   echo <- echogram
   if (!inherits(echo, "echogram"))
     stop ("need object of class 'echogram'") 
@@ -99,17 +99,19 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
                    seconds = "Ping time")
     
     if (colbar == TRUE){
-        zlab <- expression(paste(S[v], "  (dB re 1 ", m^{-1}, ")")) # def of zlab
-	op <- par(no.readonly = TRUE)  
+      zlab <- expression(paste(S[v], "  (dB re 1 ", m^{-1}, ")")) # def of zlab
+      if (restore.par == TRUE){
+        op <- par(no.readonly = TRUE)  
         on.exit(par(op))
-        layout( matrix(c(2, 1), ncol=2), widths=c(7/8, 1/8), heights = c(1, 1) )
-        par(mar=c(5.1, 0.1, 4.1, 4.0)) # Antes 3.5
-        imageScale(z = Sv, col = cb$palette, breaks = cb$breaks, axis.pos = 4)
-        mtext(zlab, side=4, line=-1.5, outer=TRUE)
-        par(mar=c(5.1, 4.1, 4.1, 0.1))
+	  }	
+      layout( matrix(c(2, 1), ncol=2), widths=c(7/8, 1/8), heights = c(1, 1) )
+      par(mar=c(5.1, 0.1, 4.1, 4.0)) # Antes 3.5
+      imageScale(z = Sv, col = cb$palette, breaks = cb$breaks, axis.pos = 4)
+      mtext(zlab, side=4, line=-1.5, outer=TRUE)
+      par(mar=c(5.1, 4.1, 4.1, 0.1))
     }
     image(x=1:nx, y=1:ny, z = Sv, axes = FALSE, ylab = "Depth (m)", xlab = Xlab,
-          col = cb$palette, breaks = cb$breaks, main = main); box()
+          col = cb$palette, breaks = cb$breaks, main = main, useRaster = TRUE); box()
 
     if(seabed == TRUE){
       R <- echo$depth
@@ -145,9 +147,13 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
     if (x.ref == "nmi"){
       distMax <- max(echo$pings$cumdist)
       if (missing(x.grid))
-        x.grid <- floor(distMax*0.1)
+        x.grid <- 0.1
       at.x <- seq(x.grid, distMax, x.grid) 
-      axis(1, at = at.x, labels = at.x, ...)
+      IX <- rep(NA, length(at.x))
+      for ( i in 1:length(at.x) ){
+        IX[i] <- which.min(abs(echo$pings$cumdist - at.x[i]))
+      }
+      axis(1, at = IX, labels = at.x, ...)
     }
     if (x.ref == "seconds"){
       pt <- echo$pings$pingTime
@@ -162,4 +168,3 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
       axis(1, at = at.x, labels = lab.x, ...)
     }
 }
-

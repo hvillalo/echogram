@@ -5,6 +5,8 @@ domain = c("linear", "dB")) {
   echo2 <- echogram2
     if ( !inherits(echo1, "echogram") & !inherits(echo2, "echogram") ) 
     stop ("need objects of class 'echogram'")
+  fr1 <- attr(echo1$Sv, "frequency")
+  fr2 <- attr(echo2$Sv, "frequency")
   m1 <- echo1$Sv
   m2 <- echo2$Sv
   if (dim(m1)[1] != dim(m2)[1] | dim(m1)[2] != dim(m2)[2])
@@ -24,7 +26,13 @@ domain = c("linear", "dB")) {
                  minus = `-`(m1, m2))
   if (domain == "linear")
      ans0 <- linear2dB(ans0) 
+  if (operator == "plus")
+    op <- "+"
+  if (operator == "minus")
+    op <- "-"
+  fr.attr <- paste(fr1, op, fr2) 
+  attr(ans0, "frequency") <- fr.attr
   ans$Sv <- ans0
-  class(ans) <- "echogram" 
+  class(ans) <- "echogram"
   ans
 }

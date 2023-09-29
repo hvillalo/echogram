@@ -12,7 +12,7 @@ echogram(echogram, Svthr = -70, Svmax = 0, col.sep = NULL, col.nb = NULL,
          scheme = NULL, depth.grid = NULL, x.grid = NULL, 
          x.ref = c("pings", "nmi", "seconds"), seabed = FALSE, 
          depth.max = NULL, ping.ini = NULL, ping.max = NULL, colbar=TRUE, 
-         main = NULL, tformat = "\%H:\%M", ...)
+         main = NULL, tformat = "\%H:\%M", restore.par = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +32,7 @@ echogram(echogram, Svthr = -70, Svmax = 0, col.sep = NULL, col.nb = NULL,
   \item{colbar}{ logical. If \code{TRUE} a color bar is added to the echogram. }
   \item{main}{ the acoustic frequency, by default.}
   \item{tformat}{ time format for annotating when horizontal dimension when x.ref = 'seconds'.} 
+  \item{restore.par}{ logical. If \code{TRUE} (the default), the graphical device is restored to its original state.} 
   \item{\dots}{other options to \code{image}.}
 }
 \details{
