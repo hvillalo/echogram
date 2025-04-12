@@ -39,7 +39,7 @@ function(Svthr = -70, Svmax = 0, col.sep = NULL, col.nb = NULL, scheme = NULL, v
 	  cols <- pals::parula(nbcols)
 	 if ( scheme == "EK500" )
       cols <- c("#9F9F9F", "#5F5F5F", "#0000FF", "#00007F", "#00BF00", "#007F00",
-	 "#FF1900", "#FF7F00","#FF00BF", "#FF0000", "#A65300", "#783C28") 
+	 "#FFFF00", "#FF7F00","#FF00BF", "#FF0000", "#A65300", "#783C28") 
 	 if ( scheme == "echov" )
       cols <- c("#EBEBEB", "#E6E6E6", "#E1E1E1", "#DCDCDC", "#D7D7D7", "#D2D2D2",
 	 "#CDCDCD", "#C8C8C8", "#C3C3C3", "#BEBEBE", "#B9B9B9", "#B4B4B4", "#AFAFAF",
